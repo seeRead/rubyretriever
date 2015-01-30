@@ -76,13 +76,13 @@ module Retriever
     end
 
     def h1
-      H1_RE =~ @source ? @source.match(H1_RE)[1].decode_html  : ''
+      H1_RE =~ @source ? h1s = @source.scan(H1_RE)  : ''
     end
 
     def h2
-      H2_RE =~ @source ? @source.match(H2_RE)[1].decode_html  : ''
+      H2_RE =~ @source ? @source.scan(H2_RE)  : ''
     end
-
+    
     def parse_seo
       [title, desc, h1, h2]
     end
