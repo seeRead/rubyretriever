@@ -153,6 +153,7 @@ ruby-progressbar
 bloomfilter-rb  
 addressable  
 htmlentities  
+sanitize
 
 License
 -------  

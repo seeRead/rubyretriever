@@ -5,8 +5,8 @@ module Retriever
   #
   class Page
     HTTP_RE   = Regexp.new(/^http/i).freeze
-    H1_RE     = Regexp.new(/<h1>(.*)<\/h1>/i).freeze
-    H2_RE     = Regexp.new(/<h2>(.*)<\/h2>/i).freeze
+    H1_RE     = Regexp.new(/<h1>(.*?)<\/h1>/i).freeze
+    H2_RE     = Regexp.new(/<h2>(.*?)<\/h2>/i).freeze
     TITLE_RE  = Regexp.new(/<title>(.*)<\/title>/i).freeze
     DESC_RE   = Regexp.new(/<meta[^>]*name=[\"|\']description[\"|\']
                           [^>]*content=[\"]
@@ -76,11 +76,11 @@ module Retriever
     end
 
     def h1
-      H1_RE =~ @source ? @source.match(H1_RE)[1].decode_html  : ''
+      H1_RE =~ @source ? @source.scan(H1_RE).map{|x| Sanitize.fragment(x[0].to_s)}.join(" || ")  : ''
     end
 
     def h2
-      H2_RE =~ @source ? @source.match(H2_RE)[1].decode_html  : ''
+      H2_RE =~ @source ? @source.scan(H2_RE).map{|x| Sanitize.fragment(x[0].to_s)}.join(" || ")  : ''
     end
 
     def parse_seo

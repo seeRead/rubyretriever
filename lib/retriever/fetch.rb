@@ -5,6 +5,7 @@ require 'ruby-progressbar'
 require 'open-uri'
 require 'csv'
 require 'bloomfilter-rb'
+require 'sanitize'
 
 module Retriever
   #

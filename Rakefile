@@ -5,3 +5,7 @@ RSpec::Core::RakeTask.new(:spec) do |task|
 end
 
 task default: :spec
+
+task :console do
+    exec "irb -r retriever  -I ./lib"
+end
