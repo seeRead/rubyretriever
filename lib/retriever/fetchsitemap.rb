@@ -1,7 +1,7 @@
 module Retriever
   #
   class FetchSitemap < Fetch
-    # recieves target URL and RR options
+    # receives target URL and RR options
     # returns an array of all unique pages found on the site
     def initialize(url, options)
       super
@@ -15,8 +15,6 @@ module Retriever
       @result.sort_by! { |x| x.length } if @result.size > 1
       @result.uniq!
     end
-
-    private
 
     # produces valid XML sitemap based on page collection fetched.
     # Writes to current directory.
@@ -32,6 +30,8 @@ module Retriever
       f.close
       print_file_info(filename)
     end
+
+    private
 
     def print_file_info(filename)
       puts HR

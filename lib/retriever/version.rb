@@ -1,4 +1,4 @@
 #
 module Retriever
-  VERSION = '1.3.0'
+  VERSION = '1.4.5'
 end

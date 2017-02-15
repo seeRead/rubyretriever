@@ -1,9 +1,11 @@
+require 'nokogiri'
 require 'addressable/uri'
 #
 using SourceString
 module Retriever
   #
   class Page
+    HASH_RE   = Regexp.new(/^#/i).freeze
     HTTP_RE   = Regexp.new(/^http/i).freeze
     H1_RE     = Regexp.new(/<h1>(.*?)<\/h1>/i).freeze
     H2_RE     = Regexp.new(/<h2>(.*?)<\/h2>/i).freeze
@@ -42,7 +44,7 @@ module Retriever
       @links = nil
     end
 
-    # recieves page source as string
+    # receives page source as string
     # returns array of unique href links
     def links
       return @links if @links
@@ -51,8 +53,15 @@ module Retriever
         # filter some malformed URLS that come in
         # meant to be a loose filter to catch all reasonable HREF attributes.
         link = match[0]
-        Link.new(@t.scheme, @t.host, link).path
+        next if HASH_RE =~ link
+        Link.new(@t.scheme, host_with_port, link, @url).path
       end.compact.uniq
+    end
+
+    def host_with_port
+      return @t.host if @t.port.nil?
+
+      @t.host + ':' + @t.port.to_s
     end
 
     def parse_internal
@@ -67,6 +76,11 @@ module Retriever
 
     def parse_files(arr = parse_internal)
       arr.select { |x| @t.file_re =~ x }
+    end
+
+    def parse_by_css(selector)
+      nokogiri_doc = Nokogiri::HTML(@source)
+      nokogiri_doc.css(selector).text
     end
 
     def title

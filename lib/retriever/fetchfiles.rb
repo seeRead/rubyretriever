@@ -1,7 +1,8 @@
 module Retriever
-  # recieves target url and RR options
+  # receives target url and RR options
   # returns an array of all unique files (based on given filetype)
   #   found on the target site
+
   class FetchFiles < Fetch
     def initialize(url, options)
       super
@@ -17,6 +18,7 @@ module Retriever
     end
 
     def download_file(path)
+      path = filter_out_querystrings(path)
       # given valid url, downloads file to current directory in /rr-downloads/
       arr = path.split('/')
       shortname = arr.pop
