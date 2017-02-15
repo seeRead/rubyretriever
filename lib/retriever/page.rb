@@ -7,6 +7,8 @@ module Retriever
     HTTP_RE   = Regexp.new(/^http/i).freeze
     H1_RE     = Regexp.new(/<h1>(.*?)<\/h1>/i).freeze
     H2_RE     = Regexp.new(/<h2>(.*?)<\/h2>/i).freeze
+    IMG_ALT_RE     = Regexp.new(/<img .*?alt="(.*?)".*?>/i).freeze
+    IMG_SRC_RE     = Regexp.new(/<img .*?src="(.*?)".*?>/i).freeze
     TITLE_RE  = Regexp.new(/<title>(.*)<\/title>/i).freeze
     DESC_RE   = Regexp.new(/<meta[^>]*name=[\"|\']description[\"|\']
                           [^>]*content=[\"]
@@ -68,23 +70,32 @@ module Retriever
     end
 
     def title
-      TITLE_RE =~ @source ? @source.match(TITLE_RE)[1].decode_html : ''
+      TITLE_RE =~ @source ? @source.match(TITLE_RE)[1].decode_html.chomp.strip : ''
     end
 
     def desc
-      DESC_RE =~ @source ? @source.match(DESC_RE)[1].decode_html  : ''
+      DESC_RE =~ @source ? @source.match(DESC_RE)[1].decode_html.chomp.strip  : ''
+    end
+
+    def img_src
+      IMG_SRC_RE =~ @source ? @source.scan(IMG_SRC_RE).map{|x| Sanitize.fragment(x[0].to_s)}.join(" || ").chomp.strip  : ''
+    end
+
+    def img_alt
+      IMG_ALT_RE =~ @source ? @source.scan(IMG_ALT_RE).map{|x| Sanitize.fragment(x[0].to_s)}.join(" || ").chomp.strip  : ''
     end
 
     def h1
-      H1_RE =~ @source ? @source.scan(H1_RE).map{|x| Sanitize.fragment(x[0].to_s)}.join(" || ")  : ''
+      H1_RE =~ @source ? @source.scan(H1_RE).map{|x| Sanitize.fragment(x[0].to_s)}.join(" || ").chomp.strip  : ''
     end
 
     def h2
-      H2_RE =~ @source ? @source.scan(H2_RE).map{|x| Sanitize.fragment(x[0].to_s)}.join(" || ")  : ''
+      H2_RE =~ @source ? @source.scan(H2_RE).map{|x| Sanitize.fragment(x[0].to_s)}.join(" || ").chomp.strip  : ''
     end
 
     def parse_seo
-      [title, desc, h1, h2]
+      #[title, desc, h1, h2, img_alt, img_src]
+      [title, desc]
     end
   end
 end

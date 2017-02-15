@@ -1,8 +1,15 @@
 [RubyRetriever] (http://softwarebyjoe.com/rubyretriever/)  
 ==============
-[![Gem Version](https://badge.fury.io/rb/rubyretriever.svg)](http://badge.fury.io/rb/rubyretriever)  [![Build Status](https://travis-ci.org/joenorton/rubyretriever.svg?branch=master)](https://travis-ci.org/joenorton/rubyretriever)  
   
 By Joe Norton  
+Modified by Christopher Reed
+
+
+Here's how we use this for SEO audits:
+
+```
+rr -e -l 10 YourSitesURL -o filename
+```
 
 RubyRetriever is a Web Crawler, Scraper & File Harvester. Available as a command-line executable and as a crawling framework.
 
