@@ -1,4 +1,4 @@
-[RubyRetriever] (http://softwarebyjoe.com/rubyretriever/)  
+[RubyRetriever](http://softwarebyjoe.com/rubyretriever/)  
 ==============
   
 By Joe Norton  
